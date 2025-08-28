@@ -1,4 +1,5 @@
 import React from "react";
+import { formatDate } from "../utils/formatDate.js";
 
 const ResourceCard = ({ resource, onClick }) => {
     if (!resource) {
@@ -7,19 +8,13 @@ const ResourceCard = ({ resource, onClick }) => {
 
     const { id, title, type, description, authorId, createdAt } = resource;
 
-    const formattedDate = createdAt 
-        ? new Date(createdAt).toLocaleDateString('de-DE', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-        })
-        : 'N/A';
+    const formattedDate = formatDate(createdAt);
 
     return (
         <div 
             className="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300 ease-in-out flex flex-col h-full cursor-pointer"
             onClick={onClick}
-            >
+        >
             <h2 className="text-xl font-semibold text-gray-800 mb-2 leading-tight">{title}</h2>
             {type && (
                 <span className="text-sm font-medium text-accent-light bg-accent-light/10 px-2 py-1 rounded-full self-start mb-3">{type}</span>

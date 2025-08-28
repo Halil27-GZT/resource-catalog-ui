@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import LoadingSpinner from "./LoadingSpinner.jsx";
 import BackButton from "./BackButton.jsx";
 import ErrorMessage from "./ErrorMessage.jsx";
+import { formatDate } from "../utils/formatDate.js";
 
 const ResourceDetail = ({ resourceId, onBack }) => {
 
@@ -28,7 +29,7 @@ const ResourceDetail = ({ resourceId, onBack }) => {
                         return;
                     }
 
-                    setErrorDetail({code: response.status, message: response.statusText});
+                    setErrorDetail({ code: response.status, message: response.statusText });
                     setDetailResource(null);
                     setIsLoadingDetail(false);
                     return;
@@ -48,26 +49,24 @@ const ResourceDetail = ({ resourceId, onBack }) => {
         }
     }, [resourceId]);
 
-    const { 
-        id, 
-        title, 
-        type, 
-        description, 
-        authorId, 
-        createdAt, 
-        averageRating, 
-        feedback 
+    const {
+        id,
+        title,
+        type,
+        description,
+        authorId,
+        createdAt,
+        averageRating,
+        feedback
     } = detailResource || {};
 
-    const formattedDate = createdAt 
-        ? new Date(createdAt).toLocaleDateString('de-DE', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-        })
-        : 'N/A';
+    const formattedDate = formatDate(createdAt, 'de-DE', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
 
     const feedbackCount = feedback?.length || 0;
 
@@ -85,7 +84,7 @@ const ResourceDetail = ({ resourceId, onBack }) => {
                 message={`Fehler beim Laden der Ressourcendetails: ${errorDetail}`}
                 hint="Bitte prüfen, ob das Backend unter http://localhost:5002 läuft, oder später erneut versuchen."
             >
-                <BackButton onBack={onBack} label="Zurück zu allen Ressourcen"/>
+                <BackButton onBack={onBack} label="Zurück zu allen Ressourcen" />
             </ErrorMessage>
         );
     }
@@ -97,14 +96,14 @@ const ResourceDetail = ({ resourceId, onBack }) => {
                 title="Ressource nicht gefunden"
                 message={`Die Ressource mit ID ${resourceId} konnte nicht gefunden werden.`}
             >
-                <BackButton onBack={onBack} label="Zurück zu allen Ressourcen"/>
+                <BackButton onBack={onBack} label="Zurück zu allen Ressourcen" />
             </ErrorMessage>
         );
     }
 
     return (
         <div className="bg-white p-8 rounded-2xl shadow-lg">
-            <BackButton onBack={onBack} label="Zurück zu allen Ressourcen"/>
+            <BackButton onBack={onBack} label="Zurück zu allen Ressourcen" />
 
             <h2 className="text-4xl font-extrabold text-main-dark mb-4">{title}</h2>
             <div className="flex items-center space-x-4 mb-6">
@@ -114,8 +113,8 @@ const ResourceDetail = ({ resourceId, onBack }) => {
                     </span>
                 )}
             </div>
-            {description && 
-            <p className="text-gray-700 text-lg leading-relaxed mb-8">{description}</p>}
+            {description &&
+                <p className="text-gray-700 text-lg leading-relaxed mb-8">{description}</p>}
             <div className="border-t border-gray-200 pt-8 mt-8 text-gray-600 text-sm grid grid-cols-1 md:grid-cols-2 gap-4">
                 {authorId && (
                     <p className="flex items-center">
@@ -153,11 +152,7 @@ const ResourceDetail = ({ resourceId, onBack }) => {
                                 <div className="text-xs text-gray-500 flex justify-between items-center">
                                     <span>Von: {item.userId}</span>
                                     <span>
-                                        {new Date(item.timestamp).toLocaleDateString('de-DE', {
-                                            year: 'numeric',
-                                            month: 'short',
-                                            day: 'numeric'
-                                        })}
+                                        {formatDate(item.timestamp)}
                                     </span>
                                 </div>
                             </div>
