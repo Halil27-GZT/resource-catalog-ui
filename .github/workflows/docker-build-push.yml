@@ -32,8 +32,7 @@ jobs:
                 file: ./Dockerfile
                 push: true
                 tags: |
-                  tags: |
-                    ${{ secrets.DOCKERHUB_USERNAME }}/resource-catalog-ui:latest
-                    ${{ secrets.DOCKERHUB_USERNAME }}/resource-catalog-ui:${{ github.run_number }}
+                  ${{ secrets.DOCKERHUB_USERNAME }}/resource-catalog-ui:latest
+                  ${{ secrets.DOCKERHUB_USERNAME }}/resource-catalog-ui:${{ github.run_number }}
 
             
